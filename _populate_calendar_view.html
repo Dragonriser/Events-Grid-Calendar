@@ -1,0 +1,41 @@
+<script>
+  // script to add events to calendar
+  var startDate = "{{event.event.local_start_at | event_date}}";
+  var commaLoc = startDate.indexOf(",");
+
+  var startDay = startDate.substring(commaLoc-2, commaLoc); // get day
+  var infoDiv = document.createElement('div');
+  var infoText = document.createTextNode("{{ event.headline }}"); // get event name
+  var eventDiv = document.createElement('div');
+  eventDiv.className = "event event-start event-end";
+
+  // event link
+  var popLink = document.createElement('a');
+  popLink.setAttribute('href', "{{event.slug}}");
+
+  // set up hover popover
+  var eventType = "{{event.parent.slug}}";
+  var eventNameDict = {
+    "pharma_events": "Pharma Event",
+    "patient_education_events": "Patient Education Event",
+    "online_events": "Online Event",
+    "adaptive_program_events": "Adaptive Program Event",
+    "support_group_events": "Support Group Event"
+  };
+  popLink.setAttribute('title', eventNameDict[eventType]); // hover event type
+  popLink.setAttribute('data-toggle', 'popover');
+  popLink.setAttribute('data-trigger', 'hover');
+  popLink.setAttribute('data-placement','bottom'); // popover location
+  popLink.setAttribute('data-content', "Located at " + "{{event.event.venue_name}}" + " on " + "{{event.event.local_start_at | event_time}}"); // event details
+
+  infoDiv.appendChild(infoText);
+  eventDiv.appendChild(infoDiv);
+  popLink.appendChild(eventDiv);
+
+  // add to calendar view
+  if (startDay.substring(0,1) === "0") {
+    document.getElementById("d"+startDay.substring(1,2)).appendChild(popLink);
+  } else {
+    document.getElementById("d"+startDay).appendChild(popLink);
+  }
+</script>

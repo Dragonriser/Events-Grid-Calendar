@@ -1,0 +1,79 @@
+<!-- Calendar skeleton -->
+<div id="month-title" style="text-align:center"></div>
+<div class="week">
+  <div class="week-day">Sun</div>
+  <div class="week-day">Mon</div>
+  <div class="week-day">Tue</div>
+  <div class="week-day">Wed</div>
+  <div class="week-day">Thu</div>
+  <div class="week-day">Fri</div>
+  <div class="week-day">Sat</div>
+</div>
+<div id="gridcal"></div>
+
+<!-- Initialize popovers -->
+<script>
+  $(document).ready(function(){
+    $('[data-toggle="popover"]').popover();
+  });
+</script>
+
+<!-- Get first event to check relevant month -->
+{% assign firstEvent = page.calendar.events_upcoming_nearby.first %}
+
+<script type="text/javascript">
+  // get first relevant month
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  var firstDate = "{{firstEvent.event.local_start_at | event_date}}";
+  var firstMonth = firstDate.substring(0, firstDate.indexOf(" "));
+  var m = monthNames.indexOf(firstMonth);
+
+  // set month title
+  var toAdd = document.createElement('H3');
+  var addText = document.createTextNode(firstMonth+" Events In Your Area");
+
+  toAdd.appendChild(addText);
+  document.getElementById("month-title").appendChild(toAdd);
+
+
+  // create grid calendar view
+  var d = new Date();
+  var y = d.getFullYear();
+  // var m = d.getMonth();
+
+  var firstDay = new Date(y,m,1).getDay(); // get day of week of first day of month
+  var totalDays = new Date(y,m+1,0).getDate(); // get number of days in month
+
+  var sCounter = 0; // start counter
+  var eCounter = 1; // end counter
+
+  var toAdd = document.createDocumentFragment();
+  for (var weeks=0; weeks<6; weeks++) {
+    if (eCounter <= totalDays) {
+      // create week div
+      var weekDiv = document.createElement('div');
+      weekDiv.className = 'week';
+      weekDiv.id = 'w' + weeks;
+      // append days
+      for (var days=0; days<7; days++) {
+        var dayDiv = document.createElement('div');
+        dayDiv.className = 'day';
+        // add heading numbers if begun counting days
+        if (sCounter === firstDay && eCounter <= totalDays) {
+          var newHeading = document.createElement('H4');
+          var hText = document.createTextNode(eCounter);
+          eCounter++;
+          newHeading.className = 'day-label';
+          dayDiv.id = 'd' + (eCounter-1);
+          newHeading.appendChild(hText);
+          dayDiv.appendChild(newHeading);
+        } else {
+          sCounter++;
+        }
+        weekDiv.appendChild(dayDiv);
+    }
+
+    }
+    document.getElementById("gridcal").appendChild(weekDiv);
+  }
+</script>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="gridcal.css">
+</head>
+<body>
+  <div class="week">
+    <div class="week-day">Sun</div>
+    <div class="week-day">Mon</div>
+    <div class="week-day">Tue</div>
+    <div class="week-day">Wed</div>
+    <div class="week-day">Thu</div>
+    <div class="week-day">Fri</div>
+    <div class="week-day">Sat</div>
+  </div>
+  <div id="gridcal"></div>
+
+  <script type="text/javascript">
+  var d = new Date();
+  var y = d.getFullYear();
+  var m = d.getMonth();
+
+  var firstDay = new Date(y,m,1).getDay(); // get day of week of first day of month
+  var totalDays = new Date(y,m+1,0).getDate(); // get number of days in month
+
+  var sCounter = 0; // start counter
+  var eCounter = 1; // end counter
+
+  var toAdd = document.createDocumentFragment();
+  for (var weeks=0; weeks<6; weeks++) {
+    if (eCounter <= totalDays) {
+      // create week div
+      var weekDiv = document.createElement('div');
+      weekDiv.className = 'week';
+      weekDiv.id = 'w' + weeks;
+      // append days
+      for (var days=0; days<7; days++) {
+        var dayDiv = document.createElement('div');
+        dayDiv.className = 'day';
+        if (sCounter === firstDay && eCounter <= totalDays) {
+          console.log(days);
+          var newHeading = document.createElement('H3');
+          var hText = document.createTextNode(eCounter);
+          eCounter++;
+          newHeading.className = 'day-label';
+          dayDiv.id = 'd' + eCounter;
+          newHeading.appendChild(hText);
+          dayDiv.appendChild(newHeading);
+        } else {
+          console.log("Bye world");
+          sCounter++;
+        }
+        weekDiv.appendChild(dayDiv);
+    }
+
+    }
+    document.getElementById("gridcal").appendChild(weekDiv);
+  }
+  </script>
+
+  <script type="text/javascript">
+    var eventText = document.createTextNode("PharmaceuticallyTestingYourLimitsBecauseAtWhatPointWillYouBreak");
+    var toAdd = document.createElement('div');
+    toAdd.className = "event event-end event-start wordwrap";
+
+    toAdd.appendChild(eventText);
+    document.getElementById('d5').appendChild(toAdd);
+  </script>
+
+
+</body>
+</html>

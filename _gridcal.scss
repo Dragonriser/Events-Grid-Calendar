@@ -1,0 +1,61 @@
+.week {
+  display:grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-flow: dense;
+  text-align: center;
+}
+
+.day {
+  border: 1px solid rgba(5, 5, 5, 0.3);
+}
+
+.day-label {
+  grid-row-start: 1;
+  text-align: right;
+  margin:0;
+}
+
+.week-day {
+  background-color: #F46038;
+  color: #FFF;
+  text-align: center;
+  border: 1px solid rgba(5, 5, 5, 0.3);
+}
+
+.week-day, .day-label, .event {
+  padding: 4px 10px;
+}
+
+.event {
+  padding: 1px;
+  text-align: center;
+}
+
+.event div {
+  background-color: #CCC;
+  padding: 4px;
+  word-break: break-word;
+  font-size: xx-small;
+}
+
+.event div:hover {
+  background-color: #4267b2;
+}
+
+.event-end div {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.event-start div {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.day:nth-child(1) > .event { grid-column-start: 1; }
+.day:nth-child(2) > .event { grid-column-start: 2; }
+.day:nth-child(3) > .event { grid-column-start: 3; }
+.day:nth-child(4) > .event { grid-column-start: 4; }
+
+/* other */
+a { color: blue; }
